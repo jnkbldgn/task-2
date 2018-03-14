@@ -195,6 +195,8 @@ function Door2(number, onUnlock) {
         this.popup.querySelector('.door-riddle__button_1'),
         this.popup.querySelector('.door-riddle__button_2')
     ];
+    
+    let buttonsInCircle = []; 
 
     let unlockCircle = this.popup.querySelector('.door-riddle__unlock-circle'); 
     let contentElement = this.popup.querySelector('.popup__content');
@@ -204,14 +206,14 @@ function Door2(number, onUnlock) {
         positions.push({left: b.offsetLeft + "px", top: b.offsetTop + "px"});
         b.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
         b.addEventListener('pointerup', _onButtonPointerUp.bind(this));
-        b.addEventListener('pointermove', _onButtonPointerMove.bind(this));
+        b.addEventListener('pointermove', _onButtonPointerMove.bind(this, index));
         b.addEventListener('pointerleave', _onButtonPointerLeave.bind(this));
     });
 
     function _onButtonPointerDown(e){
         e.target.classList.add('door-riddle__button_pressed');
     }
-    function _onButtonPointerMove(e){
+    function _onButtonPointerMove(index, e){
         if(!e.target.classList.contains('door-riddle__button_pressed')){
          return;   
         }
@@ -219,11 +221,14 @@ function Door2(number, onUnlock) {
         e.target.hidden = true;
         let isFocusArea = checkComplite(e.clientX, e.clientY);
         let targetInCircle = false;
+        let inCircleIndex = buttonsInCircle.indexOf(index);
         if(isFocusArea){
             e.target.classList.add('in-circle');
+            !(inCircleIndex >= 0) && buttonsInCircle.push(index); 
             targetInCircle = true
-        } else if(e.target.classList.contains('in-circle')){
+        } else if (inCircleIndex >= 0){
             e.target.classList.remove('in-circle');
+            buttonsInCircle.splice(inCircleIndex, 1);
         }
         e.target.hidden = false;
         if (checkCompliteAll()){
@@ -256,24 +261,17 @@ function Door2(number, onUnlock) {
 
    //Проверяем что все указатели в круге
     function checkCompliteAll() {
-        let isOpened = true;
-        buttons.forEach(function(area) {
-            if (!area.classList.contains('in-circle')) {
-                isOpened = false;
-            }
-        });
-        return isOpened;
+        return buttonsInCircle.length === 3;
     }
 
     //Сброс на первоначальное состояние
     function resetElements(){
+        buttonsInCircle = [];
         buttons.forEach((b, index) => {
-            b.classList.contains('in-circle') && b.classList.remove('in-circle');
             b.classList.contains('door-riddle__button_pressed') && b.classList.remove('door-riddle__button_pressed');
             b.style.left = positions[index].left;
             b.style.top = positions[index].top;
         });
-
         unlockCircle.classList.contains("door-riddle__unlock-circle-complite") &&
         unlockCircle.classList.remove("door-riddle__unlock-circle-complite");
     }
@@ -332,7 +330,7 @@ function Box(number, onUnlock) {
     function _onButtonPointerDown(e){
         e.target.classList.add('door-riddle__button_pressed');
         this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
-            elem.classList.contains("area-disabled") && elem.classList.remove("area-disabled");
+            elem.classList.remove("area-disabled");
         });
     }
     function _onButtonPointerMove(index, e){
@@ -344,7 +342,7 @@ function Box(number, onUnlock) {
         let isFocusArea = checkComplite(e.clientX, e.clientY);
         if(isFocusArea){
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
-                !elem.classList.contains("area-disabled") && elem.classList.add("complite");
+                elem.classList.add("complite");
             });
         }
         checkCompliteArea.apply(this);
@@ -393,7 +391,7 @@ function Box(number, onUnlock) {
             });
             countComplited += 1;
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
-                elem.classList.contains("area-disabled") && elem.classList.remove("area-disabled");
+                elem.classList.remove("area-disabled");
             });
         }
         checkCondition.apply(this);
@@ -407,9 +405,8 @@ function Box(number, onUnlock) {
             button.style.top = positions[index].top;
         });
         unlockAreas.forEach(area => {
-
             area.classList.contains('complite') && area.classList.remove('complite');
-            !area.classList.contains('area-disabled') && area.classList.add('area-disabled');
+            area.classList.add('area-disabled');
         });
         countComplited = 0;
     }
