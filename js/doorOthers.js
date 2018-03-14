@@ -341,6 +341,8 @@ function Box(number, onUnlock) {
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 elem.classList.add("complite");
             });
+        } else {
+            buttonsInArea = [];
         }
         checkCompliteArea.apply(this);
         e.target.hidden = false;
