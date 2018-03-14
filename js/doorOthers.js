@@ -374,6 +374,8 @@ function Box(number, onUnlock) {
             let indexInComplite = buttonsInArea.indexOf(index);
             if(indexInComplite == -1){
                 buttonsInArea.push(index);
+            } else {
+                buttonsInArea.splice(indexInComplite, 1);
             }
         }
         return twoPoints && buttonsInArea.length === 2;
