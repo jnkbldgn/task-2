@@ -109,7 +109,7 @@ function Door1(number, onUnlock) {
     function _onParentPointerUp(index, e){
         cloneElement = removeClone(cloneElement);
         unPressedButton(e.target.querySelector('.door-riddle__button_pressed'));
-        let isFocusArea = checkArea(e.clientX, e.clientY, index);
+        const isFocusArea = checkArea(e.clientX, e.clientY, index);
         if(isFocusArea){
             buttons[index].classList.add('button-disabled');
             unlockAreas[index].classList.add('complite');
@@ -124,7 +124,7 @@ function Door1(number, onUnlock) {
         if(cloneElement){
             moveClone(cloneElement, e);
             cloneElement.hidden = true;
-            let isFocusArea = checkArea(e.clientX, e.clientY, index);
+            const isFocusArea = checkArea(e.clientX, e.clientY, index);
             if(isFocusArea){
                 unlockAreas[index].classList.add('focus-area');
             } else if(unlockAreas[index].classList.contains('focus-area')){
@@ -212,11 +212,16 @@ function Door2(number, onUnlock) {
         e.target.classList.add('door-riddle__button_pressed');
     }
     function _onButtonPointerMove(e){
+        if(!e.target.classList.contains('door-riddle__button_pressed')){
+         return;   
+        }
         moveElement(e.target, e);
         e.target.hidden = true;
         let isFocusArea = checkComplite(e.clientX, e.clientY);
+        let targetInCircle = false;
         if(isFocusArea){
             e.target.classList.add('in-circle');
+            targetInCircle = true
         } else if(e.target.classList.contains('in-circle')){
             e.target.classList.remove('in-circle');
         }
@@ -314,7 +319,7 @@ function Box(number, onUnlock) {
         this.popup.querySelector('.door-riddle__unlock-area_5'),
     ];
     let contentElement = this.popup.querySelector('.popup__content');
-    let positions = []; 
+    let positions = [];
 
     buttons.forEach((b, index) => {
         positions.push({left: b.offsetLeft + "px", top: b.offsetTop + "px"});
@@ -331,6 +336,9 @@ function Box(number, onUnlock) {
         });
     }
     function _onButtonPointerMove(index, e){
+        if(!e.target.classList.contains('door-riddle__button_pressed')){
+         return;   
+        }
         moveElement(e.target, e);
         e.target.hidden = true;
         let isFocusArea = checkComplite(e.clientX, e.clientY);
