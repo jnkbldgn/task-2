@@ -314,6 +314,7 @@ function Box(number, onUnlock) {
     ];
     const contentElement = this.popup.querySelector('.popup__content');
     let positions = [];
+    let buttonsInArea = [];
 
     buttons.forEach((b, index) => {
         positions.push({left: b.offsetLeft + "px", top: b.offsetTop + "px"});
@@ -335,7 +336,7 @@ function Box(number, onUnlock) {
         }
         moveElement(e.target, e);
         e.target.hidden = true;
-        const isFocusArea = checkComplite(e.clientX, e.clientY);
+        const isFocusArea = checkComplite(e.clientX, e.clientY, index);
         if(isFocusArea){
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 elem.classList.add("complite");
@@ -361,15 +362,20 @@ function Box(number, onUnlock) {
     }
 
     //Проверяем елемент под указателем
-    function checkComplite(x, y){
+    function checkComplite(x, y, index){
         let twoPoints = true;
         buttons.forEach(button => {
             if (!button.classList.contains('door-riddle__button_pressed')){
                 twoPoints = false;
             }
         });
-        elementPoint = document.elementFromPoint(x, y)
-        return twoPoints && elementPoint.classList.contains('unlock-area_' + countComplited);
+        elementPoint = document.elementFromPoint(x, y);
+        if(elementPoint.classList.contains('unlock-area_' + countComplited) && !elementPoint.classList.contains('complite')){
+            let indexInComplite = buttonsInArea.indexOf(index);
+            if(indexInComplite == -1){
+                buttonsInArea.push(index);
+        }
+        return twoPoints && buttonsInArea.length === 2;
     }
 
     function checkCompliteArea(){
