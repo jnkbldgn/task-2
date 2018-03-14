@@ -220,12 +220,10 @@ function Door2(number, onUnlock) {
         moveElement(e.target, e);
         e.target.hidden = true;
         let isFocusArea = checkComplite(e.clientX, e.clientY);
-        let targetInCircle = false;
         let inCircleIndex = buttonsInCircle.indexOf(index);
         if(isFocusArea){
             e.target.classList.add('in-circle');
             !(inCircleIndex >= 0) && buttonsInCircle.push(index); 
-            targetInCircle = true
         } else if (inCircleIndex >= 0){
             e.target.classList.remove('in-circle');
             buttonsInCircle.splice(inCircleIndex, 1);
@@ -234,7 +232,6 @@ function Door2(number, onUnlock) {
         if (checkCompliteAll()){
             unlockCircle.classList.add("door-riddle__unlock-circle-complite");
         } else {
-            unlockCircle.classList.contains("door-riddle__unlock-circle-complite") && 
             unlockCircle.classList.remove("door-riddle__unlock-circle-complite");
         };
     }
@@ -267,12 +264,11 @@ function Door2(number, onUnlock) {
     //Сброс на первоначальное состояние
     function resetElements(){
         buttonsInCircle = [];
-        buttons.forEach((b, index) => {
-            b.classList.contains('door-riddle__button_pressed') && b.classList.remove('door-riddle__button_pressed');
+        buttons.forEach((b, index) => { 
+            b.classList.remove('door-riddle__button_pressed');
             b.style.left = positions[index].left;
             b.style.top = positions[index].top;
         });
-        unlockCircle.classList.contains("door-riddle__unlock-circle-complite") &&
         unlockCircle.classList.remove("door-riddle__unlock-circle-complite");
     }
 
