@@ -327,7 +327,8 @@ function Box(number, onUnlock) {
     function _onButtonPointerMove(index, e){
         moveElement(e.target, e);
         e.target.hidden = true;
-        let isFocusArea = checkComplite(e.clientX, e.clientY);
+        let isFocusArea = checkInComplite(e.clientX, e.clientY);
+        let 
         if(isFocusArea){
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 !elem.classList.contains("area-disabled") && elem.classList.add("complite");
@@ -350,8 +351,12 @@ function Box(number, onUnlock) {
 
     //Проверяем елемент под указателем
     function checkComplite(x, y){
+        let twoPoints = true;
+        buttons.forEach(button => {
+            twoPoints = button.classList.contains('door-riddle__button_pressed');
+        });
         elementPoint = document.elementFromPoint(x, y)
-        return elementPoint.classList.contains('unlock-area_' + countComplited);
+        return twoPoints && elementPoint.classList.contains('unlock-area_' + countComplited);
     }
 
     function checkCompliteArea(){
