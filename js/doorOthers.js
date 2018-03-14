@@ -328,7 +328,6 @@ function Box(number, onUnlock) {
         moveElement(e.target, e);
         e.target.hidden = true;
         let isFocusArea = checkInComplite(e.clientX, e.clientY);
-        let 
         if(isFocusArea){
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 !elem.classList.contains("area-disabled") && elem.classList.add("complite");
