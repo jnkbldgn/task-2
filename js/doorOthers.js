@@ -75,7 +75,7 @@ function Door1(number, onUnlock) {
         this.popup.querySelector('.door-riddle__unlock-area_2')
     ];
 
-    let contentElement = this.popup.querySelector('.popup__content');
+    const contentElement = this.popup.querySelector('.popup__content');
 
     let cloneElement = null;
 
@@ -198,8 +198,8 @@ function Door2(number, onUnlock) {
     
     let buttonsInCircle = []; 
 
-    let unlockCircle = this.popup.querySelector('.door-riddle__unlock-circle'); 
-    let contentElement = this.popup.querySelector('.popup__content');
+    const unlockCircle = this.popup.querySelector('.door-riddle__unlock-circle'); 
+    const contentElement = this.popup.querySelector('.popup__content');
     let positions = []; 
 
     buttons.forEach((b, index) => {
@@ -219,7 +219,7 @@ function Door2(number, onUnlock) {
         }
         moveElement(e.target, e);
         e.target.hidden = true;
-        let isFocusArea = checkComplite(e.clientX, e.clientY);
+        const isFocusArea = checkComplite(e.clientX, e.clientY);
         let inCircleIndex = buttonsInCircle.indexOf(index);
         if(isFocusArea){
             e.target.classList.add('in-circle');
@@ -312,7 +312,7 @@ function Box(number, onUnlock) {
         this.popup.querySelector('.door-riddle__unlock-area_4'),
         this.popup.querySelector('.door-riddle__unlock-area_5'),
     ];
-    let contentElement = this.popup.querySelector('.popup__content');
+    const contentElement = this.popup.querySelector('.popup__content');
     let positions = [];
 
     buttons.forEach((b, index) => {
@@ -335,7 +335,7 @@ function Box(number, onUnlock) {
         }
         moveElement(e.target, e);
         e.target.hidden = true;
-        let isFocusArea = checkComplite(e.clientX, e.clientY);
+        const isFocusArea = checkComplite(e.clientX, e.clientY);
         if(isFocusArea){
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 elem.classList.add("complite");
