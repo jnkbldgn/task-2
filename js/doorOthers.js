@@ -205,6 +205,7 @@ function Door2(number, onUnlock) {
         b.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
         b.addEventListener('pointerup', _onButtonPointerUp.bind(this));
         b.addEventListener('pointermove', _onButtonPointerMove.bind(this));
+        b.addEventListener('pointerleave', _onButtonPointerLeave.bind(this));
     });
 
     function _onButtonPointerDown(e){
@@ -230,6 +231,10 @@ function Door2(number, onUnlock) {
 
     function _onButtonPointerUp(e){
         checkCondition.apply(this);
+    }
+    
+    function _onButtonPointerLeave(e) {
+        e.target.classList.remove('door-riddle__button_pressed');
     }
 
     //Перемещение елемента
@@ -316,6 +321,7 @@ function Box(number, onUnlock) {
         b.addEventListener('pointerdown', _onButtonPointerDown.bind(this));
         b.addEventListener('pointerup', _onButtonPointerUp.bind(this));
         b.addEventListener('pointermove', _onButtonPointerMove.bind(this, index));
+        b.addEventListener('pointerleave', _onButtonPointerLeave.bind(this));
     });
 
     function _onButtonPointerDown(e){
@@ -342,6 +348,10 @@ function Box(number, onUnlock) {
             resetElements();
         }
     }
+    
+    function _onButtonPointerLeave(e) {
+        e.target.classList.remove('door-riddle__button_pressed');
+    }
     //Перемещение элемента
     function moveElement(element, e){
         element.style.left =  (e.clientX - contentElement.getBoundingClientRect().left) - element.offsetHeight/2 + 'px';
@@ -352,7 +362,9 @@ function Box(number, onUnlock) {
     function checkComplite(x, y){
         let twoPoints = true;
         buttons.forEach(button => {
-            twoPoints = button.classList.contains('door-riddle__button_pressed');
+            if (!button.classList.contains('door-riddle__button_pressed')){
+                twoPoints = false;
+            }
         });
         elementPoint = document.elementFromPoint(x, y)
         return twoPoints && elementPoint.classList.contains('unlock-area_' + countComplited);
