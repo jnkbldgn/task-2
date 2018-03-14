@@ -392,6 +392,7 @@ function Box(number, onUnlock) {
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 elem.classList.add("complite");
             });
+            buttonsInArea = [];
             countComplited += 1;
             this.popup.querySelectorAll('.unlock-area_' + countComplited).forEach(elem => {
                 elem.classList.remove("area-disabled");
@@ -411,6 +412,7 @@ function Box(number, onUnlock) {
             area.classList.contains('complite') && area.classList.remove('complite');
             area.classList.add('area-disabled');
         });
+        buttonsInArea = [];
         countComplited = 0;
     }
 
